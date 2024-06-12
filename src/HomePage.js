@@ -23,7 +23,8 @@ function HomePage() {
   
     const fetchResponse = async () => {
         setLoading(true);
-    
+        setError(false);
+        
         try {
             const resp = await fetch(`https://portal.qwords.com/apitest/whois.php?domain=${query}`);      
             if (!resp.ok) {
@@ -33,13 +34,15 @@ function HomePage() {
             console.log(data);
             setError(data.resuls === "success" ? false : true);
             if(data.result === "success"){
+                setError(false);
                 setAvailability(data.status === "available" ? true : false);
+            }else{
+                setError(true);
             }
         } catch (error) {
             setError(true);
             console.log(error.message);
         } finally {
-            setError(false);
             setSearched(true);
             setLoading(false);
         }
@@ -71,7 +74,7 @@ function HomePage() {
                 }
                 
 
-                {availability && searched && (
+                {availability && !error && searched && (
                     <>
                         <p style={{textAlign: "center"}}>Selamat domain anda tersedia</p>
                         <button 
@@ -83,7 +86,7 @@ function HomePage() {
                     </>
                 )}
 
-                {!availability && searched && (
+                {!availability && !error && searched && (
                     <p style={{textAlign: "center"}}>Maaf, domain anda tidak tersedia</p>
                 )}
             </div>

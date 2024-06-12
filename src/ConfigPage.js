@@ -2,9 +2,8 @@ import React, {useEffect, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Select from "react-select";
 
-function ConfigPage({route, navigation}) {
+function ConfigPage() {
     const location = useLocation();
-    const [temp, setTemp] = useState('Temp');
     const navigate = useNavigate();
 
 
